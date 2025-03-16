@@ -1,0 +1,23 @@
+* Tell about yourself *
+
+Name*
+Hello, Im Sathish 
+
+Exp*
+I have 4.5 years of Experience on AWS Cloud & DevOps.
+
+Comp Cloud infra*
+here we are using AWS are Our cloud service provider. 
+we have 3tier application established using service like R53, ACM, ELB, EC2, ASG, IAM, VPC, RDS, CloudFront, EFS.
+Apart From That i also have experience in services like Lambda using function using python, SNS, SQS, Code Deploy, Code pipeline.
+
+Comp CI & CD tools* 
+In DevOps we are using GIT HUB For Source Code Mangement, JENKINS for integration tool, 
+DOCKER for container image creations,  K8s for container orchestration, Ansible for configuration management 
+and we are using Terraform IAC. 
+
+Other relavent tools exp*
+I also have experience in application monitoring tool which is Prometheus & Grafana or AppD and Log monitoring tool like Splunk.
+And i also use python, BASH, yaml for Scripting and automation.
+
+

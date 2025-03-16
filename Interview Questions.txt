@@ -1,0 +1,75 @@
+Self intro 
+what are the roles and responsiblity
+how your day start 
+explain about ci and cd pipeline 
+How do you create architecture 
+High avaibility and fault tolarence 
+What are the Environment you have in your company
+--> Dev, Staging/testing, UAT, Pre Prod, Prod/Live, DR
+instance type 
+M - C - costly - performance 
+T - normal performance
+SG vs NACL 
+
+
+Swiggy --> work for client (architecture)
+HDFC --> PL, HL, Cr, Dr, CS,..
+2015
+Monolithic - HDFC --> PL, HL, Cr, Dr, CS,.. -- 100lines --50mb .war 
+2018 
+Monolithic - HDFC --> PL, HL, Cr, Dr, CS,.. -- 200lines --100mb .war
+2024
+Monolithic - HDFC --> PL, HL, Cr, Dr, CS,.. -- 1000lines --500mb .war
+
+based on end users company migrated micro service 
+
+Microservices - HDFC --> PL, HL, Cr, Dr, CS,.. 
+.war .war .war .war
+
+RTO - Recovery Time Objective 
+RPO - Recovery Point Objective 
+
+Backup -- AWS backup 
+6hr, 4hr once 
+
+12:00 AM -- EBS, RDS
+06:00 AM
+12:00 pm 
+data loss
+04:00 PM -- server crashed ( RPO --> RTO )
+06:00 PM
+12:00 AM 
+
+https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html
+
+Backup & Restore - portfolio = 1 hour to 100hours 
+Pilot Light
+warm stand by
+multi site active / active 
+
+certificate - Digicert inc ( most of the app using )
+
+Prod 
+sathishcloud.com
+
+Disaster
+dr.sathishcloud.com
+We need to create a certificate both (ACM)
+dr, dev, test, qa, cat, uat, pre-prod those are sub domains
+*.sathishcloud.com - wild cards " https://regex101.com/ " 
+
+AWS secreate manager - password / certificate = do save and auto renew
+
+php-mysql = client 
+wp-content = configuration file
+chown -R apache:apache wp-content 
+
+AWS Single Sign On - Identity access 
+AWS organization 
+Active directory 
+
+https://crontab.guru/
+
+
+
+

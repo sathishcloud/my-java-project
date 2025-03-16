@@ -1,0 +1,76 @@
+================================
+--------------------> Day-2 <--------------------
+================================
+
+
+
+node{
+   stage('SCM Checkout'){
+     git 'https://github.com/damodaranj/my-app.git'
+   }
+   stage('Compile-Package'){
+
+      def mvnHome =  tool name: 'maven3', type: 'mavenffff'   
+      sh "${mvnHome}/bin/mvn clean package"
+	  sh 'mv target/myweb*.war target/newapp.war'
+   }
+   stage('SonarQube Analysis') {
+	        def mvnHome =  tool name: 'maven3', type: 'maven'
+	        withSonarQubeEnv('sonar') { 
+	          sh "${mvnHome}/bin/mvn sonar:sonar"
+	        }
+	    }
+   stage('Build Docker Imager'){
+   sh 'docker build -t saidamo/myweb:0.0.2 .'
+   }
+   stage('Docker Image Push'){
+   withCredentials([string(credentialsId: 'dockerPass', variable: 'dockerPassword')]) {
+   sh "docker login -u saidamo -p ${dockerPassword}"
+    }
+   sh 'docker push saidamo/myweb:0.0.2'
+   }
+   stage('Nexus Image Push'){
+   sh "docker login -u admin -p admin123 13.233.192.31:8083"
+   sh "docker tag saidamo/myweb:0.0.2 13.233.192.31:8083/damo:1.0.0"
+   sh 'docker push 13.233.192.31:8083/damo:1.0.0'
+   }
+   stage('Remove Previous Container'){
+	try{
+		sh 'docker rm -f tomcattest'
+	}catch(error){
+		//  do nothing if there is an exception
+	}
+   stage('Docker deployment'){
+   sh 'docker run -d -p 8090:8080 --name tomcattest saidamo/myweb:0.0.2' 
+   }
+}
+}
+
+
+
+* Tell about yourself *
+
+Name*
+Hello, Im Sathish 
+
+Exp*
+I have 4.5 years of Experience on AWS Cloud & DevOps.
+
+Comp Cloud infra*
+here we are using AWS are Our cloud service provider. 
+we have 3tier application established using service like R53, ACM, ELB, EC2, ASG, IAM, VPC, RDS, CloudFront, EFS.
+Apart From That i also have experience in services like Lambda using function using python, SNS, SQS, Code Deploy, Code pipeline.
+
+Comp CI & CD tools* 
+In DevOps we are using GIT HUB For Source Code Mangement, JENKINS for integration tool, 
+DOCKER for container image creations,  K8s for container orchestration, Ansible for configuration management 
+and we are using Terraform IAC. 
+
+Other relavent tools exp*
+I also have experience in application monitoring tool which is Prometheus & Grafana or AppD and Log monitoring tool like Splunk.
+And i also use python, BASH, yaml for Scripting and automation.
+
+
+
+
+

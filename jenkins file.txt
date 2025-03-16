@@ -1,0 +1,71 @@
+#scripted
+
+*scripted - old method of pipeline 
+-- node{} = we will go with now scripted 
+normaly our job will build any worker node if not mention below things
+if you build a job perticulat  worker node you need to mention stage('dev') or stage ('test')
+
+*declarative - recent update
+-- begins with pipeline{} --- 
+big advantage will be *conditions* - how to skip a stage, when condition 
+
+
+which worker node it will take stage any - it will take any node
+if you need to build a job particular node give under stage ('dev') or ('test')
+agent 
+
+---
+
+our pipeline will run our code stage by stage 
+
+   stage('SCM Checkout'){ # "you mentioned here just a stage name you can give what you want but in real time you need to common understanding name coz other team also see our code"
+     git 'https://github.com/damodaranj/my-app.git' # "you mention here branch url "
+   }
+
+
+
+
+
+
+---
+node{
+   stage('SCM Checkout'){
+     git 'https://github.com/sathishcloud/my-app'
+   }
+   stage('Compile-Package'){
+
+      def mvnHome =  tool name: 'maven3', type: 'maven'   
+      sh "${mvnHome}/bin/mvn clean package"
+	  sh 'mv target/myweb*.war target/newapp.war'
+   }
+   stage('SonarQube Analysis') {
+	        def mvnHome =  tool name: 'maven3', type: 'maven'
+	        withSonarQubeEnv('sonar') { 
+	          sh "${mvnHome}/bin/mvn sonar:sonar"
+	        }
+	    }
+   stage('Build Docker Imager'){
+   sh 'docker build -t sathishcloud/myweb:0.0.2 .' 
+   }
+   stage('Docker Image Push'){
+   withCredentials([string(credentialsId: 'dockerPassid', variable: 'dockerPassword')]) {
+   sh "docker login -u sathishcloud -p ${dockerPassword}"
+    }
+   sh 'docker push sathishcloud/myweb:0.0.2'
+   }
+   stage('Nexus Image Push'){
+   sh "docker login -u admin -p admin123 13.233.192.31:8083"
+   sh "docker tag saidamo/myweb:0.0.2 13.233.192.31:8083/damo:1.0.0"
+   sh 'docker push 13.233.192.31:8083/damo:1.0.0'
+   }
+   stage('Remove Previous Container'){
+	try{
+		sh 'docker rm -f tomcattest'
+	}catch(error){
+		//  do nothing if there is an exception
+	}
+   stage('Docker deployment'){
+   sh 'docker run -d -p 8090:8080 --name tomcattest sathish/myweb:0.0.2' 
+   }
+}
+}

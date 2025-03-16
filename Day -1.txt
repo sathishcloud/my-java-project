@@ -1,0 +1,301 @@
+*DevOps is not static*
+
+Step -1 -- t2.medium -- 4gbram ( Git, Jenkins, Maven, Docker )
+Step -2 -- t2.medium -- 4gbram ( SonarQube-3gb )
+Step - 3 -- t2.medium -- 4gbram ( nexus-3gb ) 
+
+
+STEP 001:-
+========
+What is your tech stack?
+Which Language app belongs to ?
+Now we are go with java based application 
+Java, .net, python, nodejs
+
+SOURCE CODE MANAGEMENT :-
+Git -- Local Repo 
+Git Hub -- Remote Repo ( SCM )
+
+CONTINOUS INTERGARATION  :-
+Jenkins
+ALT Git Lab/Git Hub Action/Travic CI -- CI tool -- Open Source
+
+BUILD TOOLS :-
+Maven -- Build tool java/ .war / pom.xml
+Maven/Gradle/Ant -- Build Tool ( Dev java src --> package ( .war, .jar, .ear )
+ALT - SCons/Pavar -- Python
+ALT - msbuild tool -- .net
+
+CONTAINER :-
+Docker/Container D -- Container Tool 
+Docker hub -- Container registry / It acts as a registry where developers can host and distribute Docker images
+ALT - Open VZ, Podman, Mesos,
+
+PRIVATE REGISTRY:-
+Nexus -- Private registry
+save .war, .jar, .ear, npm (node js), docker images Nexus Versioning -
+scanning of images for vulnerablities -- ( nexux IQ scan )
+ALT - GitLab Package Registry, Amazon Elastic Container Registry (ECR)
+
+CODE QUALITY TEST:-
+Sonar Qube -- Static Code analysis code level bugs & Vulnerablities
+ALT - Checkmarx, CodeClimate, Coverity
+
+MIDDLEWARE:-
+Tomcat -- App server 
+ALT - websphere, Jboss, Weblogic
+
+CONTAINER ORCHESTARTION:-
+K8s --  run time environment 
+Docker swarm, Openshift, Rancher, EKS, Apache Mesos (with Marathon)
+
+STEP 002:-
+======== 
+
+AWS console login 
+EC2 instance creation 
+Create a server 001 = t2.medium 
+
+Flow 
+
+Git commit --> Git hub (webhook) --> Jenkins --> Maven --> Sonar qube Pre-RDS (code quality) --> Docker --> Nexus --> k8 deploy 
+
+Git installation :-)
+apt install git -y
+
+Git fork - https://github.com/sathishcloud/DevOps-project-java.git
+
+Jenkins installtion :-)
+Redhat stable version 
+https://pkg.jenkins.io/redhat-stable/
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+yum install fontconfig java-17-openjdk
+yum install jenkins
+service Jenkins start
+systemctl enable Jenkins
+#amazon-linux-extras install epel -y #epel (enterprises Linux)
+
+Key word - what is key rotation and why ? 
+
+GIT HUB REPOSITORY
+java base application URL
+https://github.com/sathishcloud/DevOps-project-java.git
+
+JAVA BASED APPLICATION FILE & FOLDERS
+IMPORTANT *
+src - dir
+Dockerfile
+Jenkinsfile
+pom.xml
+OTHER *
+parameterized-builds
+parallel-executions
+global-variables
+github-push-trigger
+function-demo
+deploy-war-to-tomcat
+deploy-to-tomcat
+
+MAVEN :-)
+
+Vi pom.xml
+POM (Project Object Model) file used for managing Java projects.
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion> <!-- artifact version --> 1
+    <groupId>in.javahome</groupId> <!-- group id --> 2
+    <artifactId>myweb</artifactId> <!-- artifact id --> 3
+    <packaging>war</packaging> <!-- package type --> 4
+    <version>0.0.5</version> <!-- project version --> 5
+    <name>my-app</name> <!-- project name like file name --> 6 
+</project>
+
+This name is primarily for human readability and will appear in places like:
+    <name>my-app</name> <!-- project name -->
+
+If your build this you will get application name 
+like:
+     myweb-0.0.5.war
+          3         4      5
+devlopers give you pom.xml file
+artifactory name will be (artifact-id:version.war/ear/jar = my-web:0.0.5.war)
+
+Maven build logs.
+Project documentation or reporting tools.
+Displayed in a Maven repository (if published).
+
+45:00
+
+MAVEN life cycle?
+Default 		= validate, compile(class file), test, package, verify, install, deploy
+Clean 		= pre-clean, clean, post-clean
+Site			= it will create document site 
+
+https://maven.apache.org/
+https://www.javatpoint.com/maven-pom-xml
+
+DevOps -->
+pom.xml file - devloper
+Docker file - devops
+Jenkins file - devops
+
+
+Git - GitHub - Jenkins - maven 
+Apache Maven 3.9.6 is the latest release: it is the recommended version for all users.
+our java code will support 
+cd /opt
+Jenkins -- yum install /var/lib
+docker -- yum install /var/lib
+https://dlcdn.apache.org/maven/maven-3/
+/opt wget https://dlcdn.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz
+https://dlcdn.apache.org/maven/maven-3/
+yum install Jenkins -y 
+yum install git -y
+yum install docker -y
+service docker start
+
+---
+
+Jenkins login 
+create project - myapp
+pipeline
+? how many pipeline we have in Jenkins
+
+*scripted - old method of pipeline 
+-- node{} = we will go with now scripted 
+normaly our job will build any worker node if not mention below things
+if you build a job perticulat  worker node you need to mention stage('dev') or stage ('test')
+
+*declarative - recent update
+-- begins with pipeline{} --- conditions
+which worker node it will take stage any - it will take any node
+if you need to build a job particular node give under stage ('dev') or ('test')
+agent 
+
+
+---
+
+install plugin 
+*Stage View
+
+---
+How to integrate to maven?
+add plugin - maven integration 
+and mention the maven home path on Jenkins
+configure pipline scripts
+---
+
+cd /var/lib/Jenkins/workspace
+cd /my-app
+cd / src
+cd /main
+- java webapp 
+how you will change above files to war ( ./mvn package )
+
+---
+
+*scripts*
+
+
+node{													//scripted pipeline
+   stage('SCM Checkout'){ 									//1st stage here you need give stage name that name will be need easily understandable with everyone
+     git 'https://github.com/sathishcloud/DevOps-project-java.git'	//here you need to give a GitHub repo link
+   }
+
+node {
+    stage('SCM Checkout') {
+        git credentialsId: 'my-git-creds', url: 'https://github.com/sathishcloud/DevOps-project-java.git'
+    }
+}
+
+how to declare which node should run our job ?
+scripted
+
+node('my-node') { 						// Replace 'my-node' with the label of your target node
+    stage('SCM Checkout') {
+        git credentialsId: 'my-git-creds', url: 'https://github.com/sathishcloud/DevOps-project-java.git'
+    }
+}
+
+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
+---
+#generaly if we need to use external tool in Jenkins you to install that plugin in Jenkins 
+#plugiin
+#config the maven home path in Jenkins 
+#config the pipeline script 
+how to integrate maven to Jenkins?
+how to integrate SonarQube to Jenkins?
+/var/lib/Jenkins/workspace/project
+cd /project
+cd /src
+cd /main 
+ls 
+java   webapps
+#how to change this application to package?
+./mvn package
+cd /opt/apache-maven-3.8.8
+cd /bin
+ls 
+mvn mvnjp mvndebug mvn.cmd m2.confg
+#if you need to run mvn manually give ./mvn 
+
+     stage('Compile-Package'){							//Complie stage
+      def mvnHome =  tool name: 'maven3', type: 'maven'  	//define a variable def mvnhome like export= mvnhome
+      sh "${mvnHome}/bin/mvn  package"					//shell command  like ./bin.mvn package = it will build now package
+	  sh 'mv target/myweb*.war target/newapp.war'		//cd /var/lib/Jenkins/workspace/prod/target/myweb.0.0.5.war to target/newapp.war
+
+---
+
+  stage('Build Docker Imager'){						#docker stage containerization #dockerfile will be kept in /var/lib/Jenkins/workspace/prod/dockerfile
+   sh 'docker build -t sathishcloud/myweb:0.0.2 .'		#docker build a image
+   }
+Jenkins -- job -- jenkinsuser
+Jenkins -- docker run -- /var/run/docker.sock -- dockeruser
+
+---
+
+node{
+   stage('SCM Checkout'){
+     git 'https://github.com/damodaranj/my-app.git'
+   }
+   stage('Compile-Package'){
+
+      def mvnHome =  tool name: 'maven3', type: 'mavenffff'   
+      sh "${mvnHome}/bin/mvn clean package"
+	  sh 'mv target/myweb*.war target/newapp.war'
+   }
+   stage('SonarQube Analysis') {
+	        def mvnHome =  tool name: 'maven3', type: 'maven'
+	        withSonarQubeEnv('sonar') { 
+	          sh "${mvnHome}/bin/mvn sonar:sonar"
+	        }
+	    }
+   stage('Build Docker Imager'){
+   sh 'docker build -t saidamo/myweb:0.0.2 .'
+   }
+   stage('Docker Image Push'){
+   withCredentials([string(credentialsId: 'dockerPass', variable: 'dockerPassword')]) {
+   sh "docker login -u saidamo -p ${dockerPassword}"
+    }
+   sh 'docker push saidamo/myweb:0.0.2'
+   }
+   stage('Nexus Image Push'){
+   sh "docker login -u admin -p admin123 13.233.192.31:8083"
+   sh "docker tag saidamo/myweb:0.0.2 13.233.192.31:8083/damo:1.0.0"
+   sh 'docker push 13.233.192.31:8083/damo:1.0.0'
+   }
+   stage('Remove Previous Container'){
+	try{
+		sh 'docker rm -f tomcattest'
+	}catch(error){
+		//  do nothing if there is an exception
+	}
+   stage('Docker deployment'){
+   sh 'docker run -d -p 8090:8080 --name tomcattest saidamo/myweb:0.0.2' 
+   }
+}
+}
+
+

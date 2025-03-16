@@ -1,0 +1,40 @@
+Day 1 --- 2.5 hrs
+Day 2 --- 2 hrs
+Day 3 --- 2.5 hrs
+
+
+DEVOPS- Project
+
+GIT 				-- SCM / local repo
+GIT HUB			-- Remote / remote repo
+JENKINS			-- CI tool opensource
+SONARQUBE		-- Static Code analysis = it will check code have any bug or any vulnerability
+DOCKER 			-- Container tool = based on our application our application will be micro services
+MAVEN(java)		-- Build tool java (ant, Gradle other build tools)= what are the tech stack you used  in your company ( java application ) .war | pom
+PYTHON			-- SCON , PAVAR
+.NET      			-- MSBUILD tool
+
+war - web application archive = html, CSS
+jar - java application archive
+ear - enterprises application archive = banking application 
+
+MIDDLEWARE :
+Web server 		-- (static) Apache, IIS, NGNIX 
+App server 		-- (dynamic) Tomcat, j-boss, WebLogic, WebSphere
+tomcat 			-- App-Server   
+
+DOCKER HUB 		-- storing all the docker application (remotely)
+NEXUS			-- Private Registry tool --> we can store containers images --> also we can store( war, jar, ear, NPM, node-js ) --> 
+--> versioning --> scanning for image vulnerability --> ( nexus IQ scan )/ in we have DOCKER CLI SCAN 
+SONARQUBE 		-- Static code analysis code level bugs & vulnerabilities 
+
+
+
+scrum call
+Jira ticketing tool - rds. certification renewal / vulnerability check / s3 life cycle 
+user check - on board
+
+
+
+
+

@@ -1,0 +1,59 @@
+* MAVEN *
+
+Maven is a build automation tool used primarily for Java projects. 
+It uses a build lifecycle to define the steps involved in building and deploying a project. 
+The default lifecycle in Maven is divided into three main lifecycles:
+
+
+Default (Build) Lifecycle: 
+Handles project deployment.
+Clean Lifecycle: 
+Handles project cleaning.
+Site Lifecycle: 
+Handles the creation of your project's site documentation.
+Each of these lifecycles is composed of phases, and each phase is responsible for a specific task. 
+
+
+Here’s a detailed breakdown of the phases within each lifecycle:
+
+Clean Lifecycle
+pre-clean: Executes processes needed before the actual project cleaning.
+clean: Removes files generated at build time in the target directory.
+post-clean: Executes processes needed after the project cleaning.
+
+Default (Build) Lifecycle
+validate: Validates the project is correct and all necessary information is available.
+initialize: Initializes build state, such as setting properties.
+generate-sources: Generates any source code for inclusion in compilation.
+process-sources: Processes the source code, such as filtering.
+generate-resources: Generates resources to be included in the package.
+process-resources: Copies and processes the resources into the destination directory, ready for packaging.
+compile: Compiles the source code of the project.
+process-classes: Post-processes the generated files from compilation.
+generate-test-sources: Generates any test source code for inclusion in compilation.
+process-test-sources: Processes the test source code.
+generate-test-resources: Creates resources needed for testing.
+process-test-resources: Copies and processes the test resources into the test destination directory.
+test-compile: Compiles the test source code into the test destination directory.
+test: Runs the tests using a suitable unit testing framework.
+prepare-package: Performs any operations necessary to prepare the package before the actual packaging occurs.
+package: Packages the compiled code into a distributable format, such as a JAR or WAR file.
+pre-integration-test: Executes any processes needed before integration tests are run.
+integration-test: Processes and deploys the package if necessary into an environment where integration tests can be run.
+post-integration-test: Executes tasks needed after integration tests have been executed.
+verify: Runs any checks to verify the package is valid and meets quality criteria.
+install: Installs the package into the local repository, for use as a dependency in other projects locally.
+deploy: Copies the final package to the remote repository for sharing with other developers and projects.
+
+Site Lifecycle
+pre-site: Executes processes needed before the actual project site generation.
+site: Generates the project's site documentation.
+post-site: Executes processes needed after the project site generation.
+site-deploy: Deploys the generated site documentation to a web server.
+Using Maven Lifecycles
+To invoke these lifecycles, you use the mvn command followed by the phase you want to execute. For example:
+
+mvn clean: Executes the clean lifecycle, running the pre-clean, clean, and post-clean phases.
+mvn install: Executes the default lifecycle up to the install phase, running all phases up to and including install.
+mvn site: Executes the site lifecycle up to the site phase, generating the project's site documentation.
+Maven will always execute the phases in order, so if you invoke a phase, all preceding phases will also be executed. For example, running mvn package will execute all phases from validate to package.
